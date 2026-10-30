@@ -1,6 +1,27 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
+# Source code — always normalized LF in repo
+*.php   text diff=php
+*.inc   text diff=php
+*.css   text
+*.js    text
+*.html  text
+*.md    text
+*.yml   text
+*.json  text
+
+# Binaries — never touch
+*.png   binary
+*.jpg   binary
+*.gif   binary
+*.ico   binary
+*.svg   text
+*.eot   binary
+*.ttf   binary
+*.woff  binary
+*.woff2 binary
+
 # Custom for Visual Studio
 *.cs     diff=csharp
 
