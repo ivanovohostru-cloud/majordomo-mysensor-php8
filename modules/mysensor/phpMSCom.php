@@ -11,7 +11,7 @@ include_once('PhpSerial.php');
 class MySensorMasterCom extends MySensorMaster {
   public $Serial;
     
-  function MySensorMasterCom($GId, $device){
+  function __construct($GId, $device){
     $this->GId = $GId;
 
     $serial = new phpSerial;    
@@ -43,7 +43,7 @@ class MySensorMasterCom extends MySensorMaster {
     
 	$this->AddLog(cLogDebug, "Connected");    
     stream_set_timeout($this->Serial->_dHandle, 0, 250000);
-    MySensorMaster::connect();        
+    parent::connect();
     return true;            
   }
   

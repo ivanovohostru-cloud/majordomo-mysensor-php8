@@ -28,7 +28,7 @@ class mysensor extends module {
 	 * @access private
 	 *        
 	 */
-	function mysensor() {		
+	function __construct() {			
 		$this->name = "mysensor";
 		$this->title = "MySensors";
 		$this->module_category = "<#LANG_SECTION_DEVICES#>";
@@ -575,10 +575,10 @@ class mysensor extends module {
 				$sens['NID'] = $NId;
 				$sens['SID'] = $SId;
 				$sens['SUBTYPE'] = $SubType;
-				$sens['INFO'] = utf8_encode($info);
+				$sens['INFO'] = msUtf8Encode($info);
 				$sens['ID'] = SQLInsert( 'msnodesens', $sens );
 			} else {
-				$sens['INFO'] = utf8_encode($info);
+				$sens['INFO'] = msUtf8Encode($info);
 				SQLUpdate( 'msnodesens', $sens );
 			}
 		}
@@ -597,7 +597,7 @@ class mysensor extends module {
 		$NId = $arr[0];
 		$SId = $arr[1];
 		$SubType = $arr[4];
-		$val = utf8_encode($arr[5]);
+		$val = msUtf8Encode($arr[5]);
 		if ($NId == "")	return;
 		
 		// Log
@@ -883,7 +883,7 @@ class mysensor extends module {
 			// SKETCH_NAME
 			case I_SKETCH_NAME :
 				if ($node) {
-					$node['SKETCH'] = utf8_encode($val);
+					$node['SKETCH'] = msUtf8Encode($val);
 					SQLUpdate( 'msnodes', $node );
 				}
 				break;
@@ -891,7 +891,7 @@ class mysensor extends module {
 			// SKETCH_VERSION
 			case I_SKETCH_VERSION :
 				if ($node) {
-					$node['VER'] = utf8_encode($val);
+					$node['VER'] = msUtf8Encode($val);
 					SQLUpdate( 'msnodes', $node );
 				}
 				break;
@@ -916,7 +916,7 @@ class mysensor extends module {
 			// I_DISCOVER_RESPONSE
 			case I_DISCOVER_RESPONSE :
 				if ($node) {
-					$node['PID'] = utf8_encode($val);
+					$node['PID'] = msUtf8Encode($val);
 					SQLUpdate( 'msnodes', $node );
 				}
 				break;
@@ -1335,6 +1335,14 @@ EOD;
 		SQLExec("ALTER TABLE `msbins` CHANGE `BIN` `BIN` LONGBLOB");
 	}
 	// --------------------------------------------------------------------
+}
+
+function msUtf8Encode($str) {
+	// utf8_encode() replacement (deprecated since PHP 8.2)
+	if (function_exists('mb_convert_encoding')) {
+		return mb_convert_encoding($str, 'UTF-8', 'ISO-8859-1');
+	}
+	return utf8_encode($str);
 }
 
 function nodeInfo($res) {

@@ -312,7 +312,9 @@ abstract class MySensorMaster{
   * Append to log
   */
   function AddLog($level, $data){
-	  list($usec, $sec) = explode(" ", microtime());
+	  $mtime = explode(" ", microtime());
+	  $usec = $mtime[0];
+	  $sec = $mtime[1];
 	
 	  switch ($level){
 		  case cLogDebug:

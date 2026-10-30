@@ -7,7 +7,7 @@ class IntelHex
 	public $Data = "";
 	
 	// Constructor
-	public function IntelHex(){		
+	public function __construct(){
 	}
 	
 	public function Resize($start, $len){

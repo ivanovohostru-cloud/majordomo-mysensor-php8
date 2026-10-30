@@ -53,7 +53,7 @@ function crc16($string,$length=0){
 function crcA001($string,$length=0){ 
 	$length =($length<=0?strlen($string):$length); 
 	
-    $data = pack('H*',$msg);
+    $data = $string;
     $crc = 0xFFFF;
     for ($i = 0; $i < $length; $i++)
     {

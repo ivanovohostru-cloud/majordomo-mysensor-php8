@@ -46,7 +46,7 @@ if ($total) {
 				$port = 5003;
 			} 	
 			
-			$gate = new MySensorMasterTcp($rec[$i]['ID'], $host, $port);		
+			$gate = new MySensorMasterTCP($rec[$i]['ID'], $host, $port);		
 		}
 		
 		if (!$gate->connect()){

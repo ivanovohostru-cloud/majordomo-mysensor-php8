@@ -11,7 +11,7 @@ class MySensorMasterTCP extends MySensorMaster {
   public $host = "192.168.1.2";
   public $port = "5003";    
   
-  function MySensorMasterTCP($GId, $host, $port){
+  function __construct($GId, $host, $port){
     $this->GId = $GId;
     $this->host = $host; 
   	$this->port = $port;	  
@@ -49,7 +49,7 @@ class MySensorMasterTCP extends MySensorMaster {
 
     $this->AddLog(cLogDebug, "Connected");
     
-    MySensorMaster::connect();
+    parent::connect();
     
     return true;        
   }
