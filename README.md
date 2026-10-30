@@ -51,7 +51,7 @@ PHP 8.x compatibility:
 - `list()` + `explode()` rewritten explicitly
 - Fixed a bug in `crcA001()` (undefined variable)
 - Fixed class name case `MySensorMasterTcp` → `MySensorMasterTCP`
-- Bundled Font Awesome distribution replaced with a CDN link
+- Bundled Font Awesome distribution trimmed to essentials: only `all.min.css` + webfonts (~1 MB instead of ~1100 files of the full dist)
 
 ### Structure
 
@@ -122,7 +122,7 @@ GPL 2.0 (same as the original project).
 - `list()` + `explode()` переписан явно
 - Исправлен баг в `crcA001()` (неопределённая переменная)
 - Исправлен регистр имени класса `MySensorMasterTcp` → `MySensorMasterTCP`
-- Встроенный дистрибутив Font Awesome заменён на CDN-ссылку
+- Встроенный дистрибутив Font Awesome сокращён до необходимого: только `all.min.css` + веб-шрифты (~1 МБ вместо ~1100 файлов полного дистрибутива)
 
 ### Структура
 
