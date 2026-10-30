@@ -1,6 +1,8 @@
-# MajorDomo MySensors
+# majordomo-mysensor-php8
 
-Модуль [MySensors](https://www.mysensors.org/) для [MajorDomo](http://smartliving.ru/) — приём и отправка сообщений от сенсоров/актуаторов через шлюз (TCP или COM-порт), привязка значений к свойствам объектов, OTA-обновление прошивок узлов.
+**MajorDomo MySensors (PHP 8 fork)** — модуль [MySensors](https://www.mysensors.org/) для [MajorDomo](http://smartliving.ru/): приём и отправка сообщений от сенсоров/актуаторов через шлюз (TCP или COM-порт), привязка значений к свойствам объектов, OTA-обновление прошивок узлов.
+
+> Форк оригинального модуля, адаптированный для работы на **PHP 7.x и PHP 8.x** (8.0–8.3).
 
 ## Возможности
 
