@@ -1,10 +1,87 @@
 # majordomo-mysensor-php8
 
+[English](#english) | [Русский](#русский)
+
+---
+
+## English
+
+**MajorDomo MySensors (PHP 8 fork)** — a [MySensors](https://www.mysensors.org/) module for [MajorDomo](http://smartliving.ru/): receive and send messages from sensors/actuators via a gateway (TCP or COM port), link values to object properties, OTA firmware updates for nodes.
+
+> Fork of the original module, adapted to work on **PHP 7.x and PHP 8.x** (8.0–8.3).
+
+### Features
+
+- Two gateway types: **Serial (COM)** and **TCP (Ethernet/WiFi)**
+- Automatic registration of nodes and sensors (Presentation / Set / Req / Internal / Stream)
+- Automatic Node ID assignment (auto or manual mode)
+- Linking sensor values to MajorDomo object properties (`LINKED_OBJECT.LINKED_PROPERTY`)
+- Control via object properties (Set with ACK support and a queue for sleeping nodes)
+- OTA firmware updates from `.hex` files (Intel HEX → bin, CRC16)
+- Status monitoring: battery, heartbeat, offline detection, send queue
+- Web interface: gates, nodes, sensors, firmware, queue, log
+
+### Requirements
+
+| Component | Version |
+|---|---|
+| PHP | **7.x or 8.x** (tested on 8.1–8.3) |
+| MajorDomo | latest stable |
+| PHP extensions | `sockets` (for TCP gateway), `mbstring` (recommended), `json` |
+
+> **Note for PHP 8.2+:** `utf8_encode()` is deprecated — the module uses its own `msUtf8Encode()` wrapper, so no warnings are emitted.
+
+### Installation
+
+1. Copy the module folder to `/var/www/html/modules/mysensor` (or the `modules` directory of your MajorDomo installation).
+2. In the MajorDomo panel open **Modules → Modules and applications → MySensors** — the module installs automatically (creates tables `msgates`, `msnodes`, `msnodeval`, `msnodesens`, `msbins`, `mssendstack`, `msnodestate`).
+3. Add a gateway:
+   - **Serial**: URL like `COM3` or `/dev/ttyUSB0`, baud rate 115200
+   - **TCP**: URL like `192.168.1.10:5003`
+4. Run the cycle: add `/var/www/html/scripts/cycle_mysensor.php` to autostart (MajorDomo will offer to start the cycle on first open of the module settings).
+
+### Changes (ivanovohostru-cloud fork)
+
+PHP 8.x compatibility:
+
+- PHP 4-style constructors (`mysensor()`, `PhpSerial()`, `IntelHex()`, `MySensorMasterCom()`, `MySensorMasterTCP()`) replaced with `__construct()`
+- Curly brace string offsets `$str{0}` → `$str[0]` (fatal in PHP 8)
+- `MySensorMaster::connect()` calls → `parent::connect()`
+- Deprecated `utf8_encode()` replaced with a `mb_convert_encoding()` wrapper (falls back to `utf8_encode` when mbstring is unavailable)
+- `list()` + `explode()` rewritten explicitly
+- Fixed a bug in `crcA001()` (undefined variable)
+- Fixed class name case `MySensorMasterTcp` → `MySensorMasterTCP`
+- Bundled Font Awesome distribution replaced with a CDN link
+
+### Structure
+
+```
+modules/mysensor/
+  mysensor.class.php   — module class (panel, DB, message handling)
+  phpMS.php            — abstract gateway base class + protocol dictionaries
+  phpMSTcp.php         — TCP gateway
+  phpMSCom.php         — Serial gateway
+  PhpSerial.php        — COM port handling
+  intelhex.php         — Intel HEX parser
+  crcs.php             — CRC16
+scripts/cycle_mysensor.php — background gateway processing cycle
+templates/mysensor/   — web interface templates
+languages/            — localization (ru, ua)
+```
+
+### License
+
+GPL 2.0 (same as the original project).
+
+---
+
+## Русский
+
 **MajorDomo MySensors (PHP 8 fork)** — модуль [MySensors](https://www.mysensors.org/) для [MajorDomo](http://smartliving.ru/): приём и отправка сообщений от сенсоров/актуаторов через шлюз (TCP или COM-порт), привязка значений к свойствам объектов, OTA-обновление прошивок узлов.
 
 > Форк оригинального модуля, адаптированный для работы на **PHP 7.x и PHP 8.x** (8.0–8.3).
 
-## Возможности
+### Возможности
 
 - Поддержка шлюзов двух типов: **Serial (COM)** и **TCP (Ethernet/WiFi)**
 - Автоматическая регистрация узлов и сенсоров (Presentation / Set / Req / Internal / Stream)
@@ -15,7 +92,7 @@
 - Мониторинг состояния: батарея, heartbeat, offline-детект, очередь отправки
 - Веб-интерфейс: шлюзы, узлы, сенсоры, прошивки, очередь, журнал
 
-## Требования
+### Требования
 
 | Компонент | Версия |
 |---|---|
@@ -25,7 +102,7 @@
 
 > **Примечание для PHP 8.2+:** функция `utf8_encode()` объявлена устаревшей — модуль использует собственную обёртку `msUtf8Encode()`, поэтому предупреждений нет.
 
-## Установка
+### Установка
 
 1. Скопируйте папку модуля в `/var/www/html/modules/mysensor` (или в `modules` вашей установки MajorDomo).
 2. В панели MajorDomo откройте **Модули → Модули и приложения → MySensors** — модуль установится автоматически (создаст таблицы `msgates`, `msnodes`, `msnodeval`, `msnodesens`, `msbins`, `mssendstack`, `msnodestate`).
@@ -34,7 +111,7 @@
    - **TCP**: URL вида `192.168.1.10:5003`
 4. Запустите цикл: добавить `/var/www/html/scripts/cycle_mysensor.php` в автозапуск (MajorDomo сам предложит запустить цикл при первом открытии настроек).
 
-## Изменения (форк ivanovohostru-cloud)
+### Изменения (форк ivanovohostru-cloud)
 
 Совместимость с PHP 8.x:
 
@@ -45,8 +122,9 @@
 - `list()` + `explode()` переписан явно
 - Исправлен баг в `crcA001()` (неопределённая переменная)
 - Исправлен регистр имени класса `MySensorMasterTcp` → `MySensorMasterTCP`
+- Встроенный дистрибутив Font Awesome заменён на CDN-ссылку
 
-## Структура
+### Структура
 
 ```
 modules/mysensor/
@@ -62,6 +140,6 @@ templates/mysensor/   — шаблоны веб-интерфейса
 languages/            — локализация (ru, ua)
 ```
 
-## Лицензия
+### Лицензия
 
 GPL 2.0 (как оригинальный проект).
